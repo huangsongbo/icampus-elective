@@ -31,6 +31,7 @@ import com.irengine.campus.domain.StatisticalDataOfSelectCourseAssist;
 import com.irengine.campus.domain.Student;
 import com.irengine.campus.domain.Teacher;
 import com.irengine.campus.service.ArrangeCourseService;
+import com.irengine.campus.service.BaseSyllabusService;
 import com.irengine.campus.service.BasicSettingsService;
 import com.irengine.campus.service.CourseService;
 import com.irengine.campus.service.GroupService;
@@ -85,6 +86,8 @@ public class CoursesArrangingController {
 	@Autowired
 	private TeacherService teacherService;
 
+	@Autowired
+	private BaseSyllabusService baseSyllabusService;
 	/**
 	 * 先排课,再遍历每个学生,选择该学生可排课的最优组合
 	 */
@@ -100,7 +103,8 @@ public class CoursesArrangingController {
 			// 根据type返回不同结果
 			@RequestParam("type") Integer type,
 			@RequestParam(value = "scores", required = false) Integer scores1,
-			@RequestParam("period") Integer period) {
+			@RequestParam("period") Integer period,
+			@RequestParam("periodInfo") List<String> periodInfo) {
 		ArrangeCourse arrangeCourse = new ArrangeCourse(th, year, term, name,
 				new Date());
 		arrangeCourse = arrangeCourseService.save(arrangeCourse);
@@ -452,6 +456,8 @@ public class CoursesArrangingController {
 				}
 			}
 		}
+		/*保存groups*/
+		baseSyllabus=baseSyllabusService.save(baseSyllabus);
 		if (type == 1) {
 			return new ResponseEntity<>(teacherAndGroups, HttpStatus.OK);
 		}

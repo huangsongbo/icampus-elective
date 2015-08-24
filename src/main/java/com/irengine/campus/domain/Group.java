@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -45,6 +46,8 @@ public class Group extends BaseEntity implements Serializable ,Comparable<Group>
 	private boolean selected;
 
 	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="arrangeCourse_id")
 	private ArrangeCourse arrangeCourse;
 	
 	public Group() {
